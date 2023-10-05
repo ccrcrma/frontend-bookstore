@@ -3,9 +3,25 @@ import { Link, useNavigate } from "react-router-dom";
 import { baseUrl } from "./config/utils";
 import GenreDropDown from "./GenreDropDown";
 import { notify } from "./utils/toast";
+import ReactPaginate from "react-paginate";
 
 const BookListing = () => {
-  const [empdata, empdatachange] = useState(null);
+  const [data, datachange] = useState([]);
+  // pagination
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const itemsPerPage = 5;
+
+  // handling page changes
+
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage.selected);
+  };
+
+  const startIndex = currentPage * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const subset = data.slice(startIndex, endIndex);
+
   const navigate = useNavigate();
 
   const LoadDetail = (id) => {
@@ -35,78 +51,104 @@ const BookListing = () => {
         return res.json();
       })
       .then((resp) => {
-        empdatachange(resp);
+        datachange(resp);
+        // console.log(resp);
+        setTotalPages(Math.ceil(resp.length / itemsPerPage));
       })
       .catch((err) => {
         console.log(err.message);
       });
   }, []);
   return (
-    <div className="container">
-      <div className="card">
-        <div className="card-title">
-          <h2>Book Listing</h2>
-        </div>
-        <div className="card-body">
-          <div className="divbtn">
-            <Link to="book/create" className="btn btn-success">
-              Add New (+)
-            </Link>
+    <>
+      <div className="container">
+        <div className="card">
+          <div className="card-title">
+            <h2>Book Listing</h2>
           </div>
-          <table className="table table-bordered">
-            <thead className="bg-dark text-white">
-              <tr>
-                <td>ID</td>
-                <td>Name</td>
-                <td>publishedDate</td>
-                <td>Genre</td>
-                <td>Action</td>
-              </tr>
-            </thead>
-            <tbody>
-              {empdata &&
-                empdata.map((item) => (
-                  <tr key={item.id}>
-                    <td>{item.id}</td>
-                    <td>{item.name}</td>
-                    <td>{item.publishedDate}</td>
-                    {/* <td>{item.genre}</td> */}
-                    <td>
-                      <GenreDropDown value={item.genre} disabled={true} />
-                    </td>
-                    <td>
-                      <a
-                        onClick={() => {
-                          LoadEdit(item.id);
-                        }}
-                        className="btn btn-success"
-                      >
-                        Edit
-                      </a>
-                      <a
-                        onClick={() => {
-                          Removefunction(item.id);
-                        }}
-                        className="btn btn-danger"
-                      >
-                        Remove
-                      </a>
-                      <a
-                        onClick={() => {
-                          LoadDetail(item.id);
-                        }}
-                        className="btn btn-primary"
-                      >
-                        Details
-                      </a>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+          <div className="card-body">
+            <div className="divbtn">
+              <Link to="book/create" className="btn btn-success">
+                Add New (+)
+              </Link>
+            </div>
+            <table className="table table-bordered">
+              <thead className="bg-dark text-white">
+                <tr>
+                  <td>ID</td>
+                  <td>Name</td>
+                  <td>publishedDate</td>
+                  <td>Genre</td>
+                  <td>Action</td>
+                </tr>
+              </thead>
+              <tbody>
+                {subset &&
+                  subset.map((item) => (
+                    <tr key={item.id}>
+                      <td>{item.id}</td>
+                      <td>{item.name}</td>
+                      <td>{item.publishedDate}</td>
+                      {/* <td>{item.genre}</td> */}
+                      <td>
+                        <GenreDropDown value={item.genre} disabled={true} />
+                      </td>
+                      <td>
+                        <a
+                          onClick={() => {
+                            LoadEdit(item.id);
+                          }}
+                          className="btn btn-success"
+                        >
+                          Edit
+                        </a>
+                        <a
+                          onClick={() => {
+                            Removefunction(item.id);
+                          }}
+                          className="btn btn-danger"
+                        >
+                          Remove
+                        </a>
+                        <a
+                          onClick={() => {
+                            LoadDetail(item.id);
+                          }}
+                          className="btn btn-primary"
+                        >
+                          Details
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <ReactPaginate
+            nextLabel="next >"
+            onPageChange={handlePageChange}
+            pageRangeDisplayed={3}
+            marginPagesDisplayed={2}
+            pageCount={totalPages}
+            previousLabel="< previous"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakLabel="..."
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            containerClassName="pagination"
+            activeClassName="active"
+            renderOnZeroPageCount={null}
+          />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

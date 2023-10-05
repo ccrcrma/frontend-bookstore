@@ -1,0 +1,85 @@
+{
+  "book": [
+    {
+      "name": "random book",
+      "publishedDate": "2023-10-04",
+      "genre": "6",
+      "id": 3
+    },
+    {
+      "name": "Homo Sapiens",
+      "publishedDate": "2023-10-04",
+      "genre": "6",
+      "id": 4
+    },
+
+    {
+      "name": "random book",
+      "publishedDate": "2023-10-04",
+      "genre": "6",
+      "id": 5
+    },
+    {
+      "name": "Homo Sapiens",
+      "publishedDate": "2023-10-04",
+      "genre": "6",
+      "id": 6
+    },
+
+    {
+      "name": "random book",
+      "publishedDate": "2023-10-04",
+      "genre": "6",
+      "id": 7
+    },
+    {
+      "name": "Homo Sapiens",
+      "publishedDate": "2023-10-04",
+      "genre": "6",
+      "id": 8
+    },
+
+    {
+      "name": "random book",
+      "publishedDate": "2023-10-04",
+      "genre": "6",
+      "id": 9
+    },
+    {
+      "name": "Homo Sapiens",
+      "publishedDate": "2023-10-04",
+      "genre": "6",
+      "id": 10
+    },
+    {
+      "name": "random book",
+      "publishedDate": "2023-10-04",
+      "genre": "6",
+      "id": 11
+    },
+    {
+      "name": "Homo Sapiens",
+      "publishedDate": "2023-10-04",
+      "genre": "6",
+      "id": 12
+    },
+    {
+      "name": "Homo Sapiens",
+      "publishedDate": "2023-10-04",
+      "genre": "6",
+      "id": 13
+    },
+    {
+      "name": "random book",
+      "publishedDate": "2023-10-04",
+      "genre": "6",
+      "id": 14
+    },
+    {
+      "name": "Homo Sapiens",
+      "publishedDate": "2023-10-04",
+      "genre": "6",
+      "id": 15
+    }
+  ]
+}

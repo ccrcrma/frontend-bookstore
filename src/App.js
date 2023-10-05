@@ -7,6 +7,9 @@ import BookDetail from "./BookDetail";
 import BookEdit from "./BookEdit";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProtectedRoute from "./ProtectedRoute";
+import LoginForm from "./LoginForm";
+import AuthService from "./services/AuthService";
 
 function App() {
   return (
@@ -14,10 +17,17 @@ function App() {
       <h1>BookStore App</h1>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<BookListing />}></Route>
-          <Route path="/book/create" element={<BookCreate />}></Route>
-          <Route path="/book/detail/:bookid" element={<BookDetail />}></Route>
-          <Route path="/book/edit/:bookid" element={<BookEdit />}></Route>
+          <Route
+            exact
+            path="/login"
+            element={<LoginForm authService={AuthService} />}
+          />
+          <Route path="/" element={<BookListing />} />
+          <Route exact path="/book/create" element={<ProtectedRoute />}>
+            <Route exact path="/book/create" element={<BookCreate />} />
+          </Route>
+          <Route path="/book/detail/:bookid" element={<BookDetail />} />
+          <Route path="/book/edit/:bookid" element={<BookEdit />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer />

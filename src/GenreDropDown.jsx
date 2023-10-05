@@ -1,34 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Controller } from "react-hook-form";
+import { GENREOPTIONS } from "./constants/const";
 
-const GenreDropDown = ({
-  // handleChange,
-  value,
-  disabled,
-  control,
-  formState,
-}) => {
-  // Define the list of Genre options
-  const genreOptions = [
-    { id: 5, value: "Fiction" },
-    { id: 6, value: "Fantasy" },
-    { id: 7, value: "Philosophy" },
-    { id: 8, value: "Horror" },
-  ];
-
-  // Initialize state to store the selected Genre
-  const [selectedGenre, setSelectedGenre] = useState(value);
-  useEffect(() => {
-    setSelectedGenre(value);
-  }, [value]);
-  // console.log(value);
-
-  // Event handler to handle changes in the dropdown selection
-  const handleGenreChange = (event) => {
-    setSelectedGenre(event.target.value);
-    // handleChange(event.target.value);
-  };
-
+const GenreDropDown = ({ disabled, control, formState }) => {
   return (
     <Controller
       name="genre"
@@ -36,15 +10,9 @@ const GenreDropDown = ({
       rules={{ required: "Select a genre" }}
       render={({ field }) => (
         <div>
-          <select
-            {...field}
-            disabled={disabled}
-            // value={Number(selectedGenre)}
-            // onChange={handleGenreChange}
-            className="form-control"
-          >
+          <select {...field} disabled={disabled} className="form-control">
             <option value="">Select a Genre</option>
-            {genreOptions.map((genre, index) => (
+            {GENREOPTIONS.map((genre, index) => (
               <option key={genre.id} value={genre.id}>
                 {genre.value}
               </option>

@@ -1,12 +1,6 @@
 {
   "book": [
     {
-      "id": 3,
-      "name": "random book",
-      "publishedDate": "2023-10-04",
-      "genre": ""
-    },
-    {
       "name": "Homo Sapiens",
       "publishedDate": "2023-10-04",
       "genre": "6",
@@ -119,6 +113,12 @@
       "publishedDate": "2023-10-05",
       "genre": "7",
       "id": 22
+    },
+    {
+      "name": "Last addition edited",
+      "publishedDate": "2023-10-30",
+      "genre": "5",
+      "id": 23
     }
   ]
 }

@@ -91,7 +91,7 @@ const BookListing = () => {
                       <td>{item.publishedDate}</td>
                       {/* <td>{item.genre}</td> */}
                       <td>
-                        <GenreDropDown value={item.genre} disabled={true} />
+                        {/* <GenreDropDown value={item.genre} disabled={true} /> */}
                       </td>
                       <td>
                         <a

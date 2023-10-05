@@ -3,27 +3,26 @@ import { Link, useNavigate } from "react-router-dom";
 import { baseUrl } from "./config/utils";
 import GenreDropDown from "./GenreDropDown";
 import { notify } from "./utils/toast";
+import { useForm, Controller } from "react-hook-form";
 
 const BookCreate = () => {
-  const [id, idchange] = useState("");
-  const [name, namechange] = useState("");
-  const [publishedDate, publishedDatechange] = useState("");
-  const [genre, genrechange] = useState("");
-  const [validation, valchange] = useState(false);
-
+  const { handleSubmit, control, formState } = useForm({
+    defaultValues: {
+      name: "",
+      publishedDate: "",
+      genre: "",
+      id: null,
+    },
+  });
   const navigate = useNavigate();
-
-  const handlesubmit = (e) => {
-    e.preventDefault();
-    const empdata = { name, publishedDate, genre };
-
+  const onSubmit = (bookdata) => {
     fetch(baseUrl, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify(empdata),
+      body: JSON.stringify(bookdata),
     })
       .then((res) => {
-        notify("Created successfully."); // replace with toast
+        notify("Created successfully.");
         navigate("/");
       })
       .catch((err) => {
@@ -35,7 +34,7 @@ const BookCreate = () => {
     <div>
       <div className="row">
         <div className="offset-lg-3 col-lg-6">
-          <form className="container" onSubmit={handlesubmit}>
+          <form className="container" onSubmit={handleSubmit(onSubmit)}>
             <div className="card" style={{ textAlign: "left" }}>
               <div className="card-title">
                 <h2>Book Create</h2>
@@ -46,7 +45,7 @@ const BookCreate = () => {
                     <div className="form-group">
                       <label>ID</label>
                       <input
-                        value={id}
+                        value={null}
                         disabled="disabled"
                         className="form-control"
                       ></input>
@@ -56,34 +55,64 @@ const BookCreate = () => {
                   <div className="col-lg-12">
                     <div className="form-group">
                       <label>Name</label>
-                      <input
-                        required
-                        value={name}
-                        onMouseDown={(e) => valchange(true)}
-                        onChange={(e) => namechange(e.target.value)}
-                        className="form-control"
-                      ></input>
-                      {name.length == 0 && validation && (
-                        <span className="text-danger">Enter the name</span>
-                      )}
+                      <Controller
+                        name="name"
+                        control={control}
+                        rules={{ required: "Name is required" }}
+                        class="form-control"
+                        render={({ field }) => (
+                          <div>
+                            <input
+                              {...field}
+                              type="text"
+                              id="name"
+                              class="form-control"
+                            />
+                            {formState.errors.name && (
+                              <span className="error">
+                                {formState.errors.name.message}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      />
                     </div>
                   </div>
 
                   <div className="col-lg-12">
                     <div className="form-group">
                       <label>Published Date</label>
-                      <input
-                        value={publishedDate}
-                        onChange={(e) => publishedDatechange(e.target.value)}
-                        className="form-control"
-                        type="date"
-                      ></input>
+                      <Controller
+                        name="publishedDate"
+                        control={control}
+                        rules={{ required: "publishedDate is required" }}
+                        class="form-control"
+                        render={({ field }) => (
+                          <div>
+                            <input
+                              {...field}
+                              type="date"
+                              id="publishedDate"
+                              class="form-control"
+                            />
+                            {formState.errors.publishedDate && (
+                              <span className="error">
+                                {formState.errors.publishedDate.message}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      />
                     </div>
                   </div>
 
                   <div className="col-lg-12">
                     <div className="form-group">
-                      <GenreDropDown handleChange={genrechange} value={genre} />
+                      <GenreDropDown
+                        value={null}
+                        control={control}
+                        formState={formState}
+                      />
                     </div>
                   </div>
 

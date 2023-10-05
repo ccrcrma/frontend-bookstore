@@ -1,10 +1,10 @@
 {
   "book": [
     {
+      "id": 3,
       "name": "random book",
       "publishedDate": "2023-10-04",
-      "genre": "6",
-      "id": 3
+      "genre": ""
     },
     {
       "name": "Homo Sapiens",
@@ -12,7 +12,6 @@
       "genre": "6",
       "id": 4
     },
-
     {
       "name": "random book",
       "publishedDate": "2023-10-04",
@@ -25,7 +24,6 @@
       "genre": "6",
       "id": 6
     },
-
     {
       "name": "random book",
       "publishedDate": "2023-10-04",
@@ -38,7 +36,6 @@
       "genre": "6",
       "id": 8
     },
-
     {
       "name": "random book",
       "publishedDate": "2023-10-04",
@@ -58,9 +55,9 @@
       "id": 11
     },
     {
-      "name": "Homo Sapiens",
-      "publishedDate": "2023-10-04",
-      "genre": "6",
+      "name": "Homo Sapiens edited ",
+      "publishedDate": "2023-10-31",
+      "genre": "7",
       "id": 12
     },
     {
@@ -80,6 +77,48 @@
       "publishedDate": "2023-10-04",
       "genre": "6",
       "id": 15
+    },
+    {
+      "name": "Hello World",
+      "publishedDate": "2023-10-05",
+      "genre": "",
+      "id": 16
+    },
+    {
+      "name": "17 edited",
+      "publishedDate": "2023-10-05",
+      "genre": "7",
+      "id": 17
+    },
+    {
+      "name": "very last to see if its working",
+      "publishedDate": "",
+      "genre": "",
+      "id": 18
+    },
+    {
+      "name": "This is the very first book I am going to create",
+      "publishedDate": "2023-10-05",
+      "genre": "",
+      "id": 19
+    },
+    {
+      "name": "Hello World",
+      "publishedDate": "2023-10-05",
+      "genre": "6",
+      "id": 20
+    },
+    {
+      "name": "hello World edited",
+      "publishedDate": "2023-10-05",
+      "genre": "7",
+      "id": 21
+    },
+    {
+      "name": "Some random name",
+      "publishedDate": "2023-10-05",
+      "genre": "7",
+      "id": 22
     }
   ]
 }

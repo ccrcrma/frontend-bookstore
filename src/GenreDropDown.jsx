@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { Controller } from "react-hook-form";
 
-const GenreDropDown = ({ handleChange, value, disabled }) => {
+const GenreDropDown = ({
+  // handleChange,
+  value,
+  disabled,
+  control,
+  formState,
+}) => {
   // Define the list of Genre options
   const genreOptions = [
     { id: 5, value: "Fiction" },
@@ -14,30 +21,41 @@ const GenreDropDown = ({ handleChange, value, disabled }) => {
   useEffect(() => {
     setSelectedGenre(value);
   }, [value]);
-  console.log(value);
+  // console.log(value);
 
   // Event handler to handle changes in the dropdown selection
   const handleGenreChange = (event) => {
     setSelectedGenre(event.target.value);
-    handleChange(event.target.value);
+    // handleChange(event.target.value);
   };
 
   return (
-    <div>
-      <select
-        disabled={disabled}
-        value={Number(selectedGenre)}
-        onChange={handleGenreChange}
-        className="form-control"
-      >
-        <option value="">Select a Genre</option>
-        {genreOptions.map((genre, index) => (
-          <option key={genre.id} value={genre.id}>
-            {genre.value}
-          </option>
-        ))}
-      </select>
-    </div>
+    <Controller
+      name="genre"
+      control={control}
+      rules={{ required: "Select a genre" }}
+      render={({ field }) => (
+        <div>
+          <select
+            {...field}
+            disabled={disabled}
+            // value={Number(selectedGenre)}
+            // onChange={handleGenreChange}
+            className="form-control"
+          >
+            <option value="">Select a Genre</option>
+            {genreOptions.map((genre, index) => (
+              <option key={genre.id} value={genre.id}>
+                {genre.value}
+              </option>
+            ))}
+          </select>
+          {formState.errors.genre && (
+            <span className="error">{formState.errors.genre.message}</span>
+          )}
+        </div>
+      )}
+    />
   );
 };
 

@@ -4,9 +4,7 @@ class AuthService {
     this.loginUrl = loginUrl;
   }
   async login({ username, password }) {
-    console.log(username, password);
     try {
-      console.log(username, password);
       const response = await fetch(`${this.loginUrl}`, {
         method: "POST",
         headers: {
@@ -34,6 +32,12 @@ class AuthService {
   logout() {
     // Remove token from localStorage or sessionStorage
     localStorage.removeItem("token");
+  }
+
+  getToken() {
+    return this.isAuthenticated()
+      ? localStorage.getItem("token")
+      : Error("Please Authorize");
   }
 
   isAuthenticated() {

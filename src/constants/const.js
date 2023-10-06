@@ -1,3 +1,4 @@
+//FETCH FROM DB
 export const GENREOPTIONS = [
   { id: 5, value: "Fiction" },
   { id: 6, value: "Fantasy" },

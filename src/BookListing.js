@@ -6,8 +6,10 @@ import { notify } from "./utils/toast";
 import ReactPaginate from "react-paginate";
 import { GetLabelForGenre } from "./constants/const";
 import { FILTEROPTIONS } from "./constants/const";
+import AuthService from "./services/AuthService";
+import { formatDate } from "./utils/formatDate";
 const BookListing = () => {
-  const [data, datachange] = useState([]);
+  const [bookdata, datachange] = useState([]);
   const [filterValue, setFilterValue] = useState(null); // State
   // pagination
   const [currentPage, setCurrentPage] = useState(0);
@@ -16,12 +18,13 @@ const BookListing = () => {
 
   // handling page changes
   const handlePageChange = (selectedPage) => {
+    console.log(selectedPage);
     setCurrentPage(selectedPage.selected);
   };
 
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const subset = data.slice(startIndex, endIndex);
+  // const subset = data.slice(startIndex, endIndex);
 
   const navigate = useNavigate();
 
@@ -47,24 +50,29 @@ const BookListing = () => {
   };
 
   useEffect(() => {
+    const headers = {
+      Authorization: `Bearer ${new AuthService().getToken()}`,
+    };
+    const bookUrl = `${baseUrl}?pageNumber=${currentPage + 1}`;
     if (filterValue !== "") {
-      fetch(baseUrl) // SomebaseUrl with filter
+      fetch(bookUrl, { method: "GET", headers }) //
         .then((res) => {
           return res.json();
         })
         .then((resp) => {
-          resp = resp.map((resp) => {
-            resp.genre = GetLabelForGenre(resp.genre);
-            return resp;
-          });
+          console.log(resp);
+          // resp = resp.data.map((resp) => {
+          //   resp.genre = GetLabelForGenre(resp.genre);
+          //   return resp;
+          // });
           datachange(resp);
-          setTotalPages(Math.ceil(resp.length / itemsPerPage));
+          setTotalPages(Math.ceil(resp.totalRecords / resp.pageSize));
         })
         .catch((err) => {
           console.log(err.message);
         });
     }
-  }, [filterValue]);
+  }, [filterValue, currentPage]);
 
   const handleFilterChange = (event) => {
     const selectedFilter = event.target.value;
@@ -101,13 +109,13 @@ const BookListing = () => {
                 </tr>
               </thead>
               <tbody>
-                {subset &&
-                  subset.map((item) => (
-                    <tr key={item.id}>
-                      <td>{item.id}</td>
-                      <td>{item.name}</td>
-                      <td>{item.publishedDate}</td>
-                      <td>{item.genre}</td>
+                {bookdata.data &&
+                  bookdata.data.map((item) => (
+                    <tr key={item.bookId}>
+                      <td>{item.bookId}</td>
+                      <td>{item.title}</td>
+                      <td>{formatDate(item.publishedDate)}</td>
+                      <td>{item.bookGenre.genreName}</td>
 
                       <td>
                         <a

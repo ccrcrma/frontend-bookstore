@@ -5,7 +5,7 @@ import { GENREOPTIONS } from "./constants/const";
 const GenreDropDown = ({ disabled, control, formState }) => {
   return (
     <Controller
-      name="genre"
+      name="genreId"
       control={control}
       rules={{ required: "Select a genre" }}
       render={({ field }) => (
@@ -18,8 +18,8 @@ const GenreDropDown = ({ disabled, control, formState }) => {
               </option>
             ))}
           </select>
-          {formState.errors.genre && (
-            <span className="error">{formState.errors.genre.message}</span>
+          {formState.errors.genreId && (
+            <span className="error">{formState.errors.genreId.message}</span>
           )}
         </div>
       )}

@@ -4,29 +4,39 @@ import { baseUrl } from "./config/utils";
 import GenreDropDown from "./GenreDropDown";
 import { notify } from "./utils/toast";
 import { useForm, Controller } from "react-hook-form";
+import AuthService from "./services/AuthService";
 
 const BookCreate = () => {
   const { handleSubmit, control, formState } = useForm({
     defaultValues: {
       name: "",
       publishedDate: "",
-      genre: "",
-      id: null,
+      genreId: "",
     },
   });
   const navigate = useNavigate();
   const onSubmit = (bookdata) => {
+    bookdata.title = bookdata.name;
+    const headers = {
+      Authorization: `Bearer ${new AuthService().getToken()}`,
+      "Content-Type": "application/json",
+    };
+
     fetch(baseUrl, {
       method: "POST",
-      headers: { "content-type": "application/json" },
       body: JSON.stringify(bookdata),
+      headers,
     })
       .then((res) => {
-        notify("Created successfully.");
-        navigate("/");
+        if (res.ok) {
+          notify("Created successfully.");
+          navigate("/book/list");
+        } else {
+          notify("Error occured while creating");
+        }
       })
       .catch((err) => {
-        console.log(err.message);
+        notify("Error occured while creating");
       });
   };
 

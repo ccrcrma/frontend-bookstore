@@ -79,7 +79,7 @@ const BookListing = () => {
           </div>
           <div className="card-body  border">
             <div className="divbtn">
-              <Link to="book/create" className="btn btn-success">
+              <Link to="/book/create" className="btn btn-success">
                 Add New (+)
               </Link>
             </div>

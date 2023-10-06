@@ -3,8 +3,10 @@ class AuthService {
   constructor() {
     this.loginUrl = loginUrl;
   }
-  async login(username, password) {
+  async login({ username, password }) {
+    console.log(username, password);
     try {
+      console.log(username, password);
       const response = await fetch(`${this.loginUrl}`, {
         method: "POST",
         headers: {

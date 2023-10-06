@@ -4,46 +4,65 @@ import { baseUrl } from "./config/utils";
 import GenreDropDown from "./GenreDropDown";
 import { notify } from "./utils/toast";
 import { useForm, Controller } from "react-hook-form";
-
+import AuthService from "./services/AuthService";
+import { formatDate } from "./utils/formatDate";
+import { AuthHeaders } from "./config/utils";
 const BookEdit = () => {
   const { bookid } = useParams();
   const { handleSubmit, control, reset, formState } = useForm({
     defaultValues: {
       name: "",
       publishedDate: "",
-      genre: "",
-      id: null,
+      genreId: "",
+      id: "",
     },
   });
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(baseUrl + bookid)
+    fetch(baseUrl + "/" + bookid, { headers: AuthHeaders })
       .then((res) => {
         return res.json();
       })
       .then((resp) => {
-        reset(resp);
-        console.log(resp);
+        if (resp.succeeded) {
+          const { bookId, title, publishedDate, bookGenre } = resp.data;
+          console.log(resp.data.bookGenre.genreId);
+          reset({
+            id: bookId,
+            name: title,
+            publishedDate: formatDate(publishedDate),
+            genreId: bookGenre.genreId,
+          });
+        } else {
+          console.log(resp);
+          notify("Error while fetching");
+        }
       })
       .catch((err) => {
         console.log(err.message);
+        notify("Error while fetching");
       });
   }, []);
 
   const onSubmit = (bookdata) => {
-    console.log(bookdata);
-    fetch(baseUrl + bookid, {
+    bookdata.title = bookdata.name;
+    fetch(baseUrl + "/" + bookid, {
       method: "PUT",
-      headers: { "content-type": "application/json" },
+      headers: { "content-type": "application/json", ...AuthHeaders },
       body: JSON.stringify(bookdata),
     })
       .then((res) => {
-        notify("Edited Successfully");
-        navigate("/");
+        if (res.ok) {
+          notify("Edited Successfully");
+          navigate("/book/list");
+        } else {
+          notify("Error occured while editing");
+        }
       })
       .catch((err) => {
         console.log(err.message);
+        notify("Error occured while editing");
       });
   };
   return (

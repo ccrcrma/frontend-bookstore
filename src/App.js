@@ -16,7 +16,6 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
     new AuthService().isAuthenticated()
   );
-  console.log(new AuthService().isAuthenticated());
 
   const handleLogout = () => {
     // Implement your logout logic here, e.g., clear tokens or session

@@ -8,6 +8,8 @@ import { GetLabelForGenre } from "./constants/const";
 import { FILTEROPTIONS } from "./constants/const";
 import AuthService from "./services/AuthService";
 import { formatDate } from "./utils/formatDate";
+import { AuthHeaders } from "./config/utils";
+
 const BookListing = () => {
   const [bookdata, datachange] = useState([]);
   const [filterValue, setFilterValue] = useState(null); // State
@@ -36,15 +38,22 @@ const BookListing = () => {
   };
   const Removefunction = (id) => {
     if (window.confirm("Do you want to remove?")) {
-      fetch(baseUrl + id, {
+      fetch(baseUrl + "/" + id, {
         method: "DELETE",
+        headers: AuthHeaders,
       })
         .then((res) => {
-          notify("Deleted Successfully");
-          window.location.reload();
+          console.log(res.status);
+          if (res.ok) {
+            notify("Deleted Successfully");
+            navigate("/book/list");
+          } else if (res.status == 403) {
+            notify("Forbidden: only admin user have deletion previleges ");
+          }
         })
         .catch((err) => {
           console.log(err.message);
+          notify("error occured");
         });
     }
   };
@@ -120,7 +129,7 @@ const BookListing = () => {
                       <td>
                         <a
                           onClick={() => {
-                            LoadEdit(item.id);
+                            LoadEdit(item.bookId);
                           }}
                           className="btn btn-success"
                         >
@@ -128,20 +137,20 @@ const BookListing = () => {
                         </a>
                         <a
                           onClick={() => {
-                            Removefunction(item.id);
+                            Removefunction(item.bookId);
                           }}
                           className="btn btn-danger"
                         >
                           Remove
                         </a>
-                        <a
+                        {/* <a
                           onClick={() => {
                             LoadDetail(item.id);
                           }}
                           className="btn btn-primary"
                         >
                           Details
-                        </a>
+                        </a> */}
                       </td>
                     </tr>
                   ))}
